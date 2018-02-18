@@ -37,11 +37,17 @@ class ResPartner(models.Model):
                         _('This zip does not exist in SAT catalog'))
 
         elif 'zip_sat_id' in vals and 'zip' in vals:
-            if vals['zip_sat_id'] and vals['zip'] and \
-               vals['zip_sat_id'] != vals['zip']:
+            if vals['zip_sat_id'] and vals['zip']:
 
-                raise UserError(
-                    _('Zip codes are not consistent. Must be the same'))
+                zip_sat = ResCountryZipSatCode.browse(vals['zip_sat_id'])
+                if zip_sat:
+                    if zip_sat.code != vals['zip']:
+
+                        raise UserError(
+                            _('Zip codes are not consistent. Must be the same'))
+                else:
+                    raise UserError(
+                        _('This zip does not exist in SAT catalog'))
 
         return vals
 
