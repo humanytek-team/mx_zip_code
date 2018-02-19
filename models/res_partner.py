@@ -4,8 +4,6 @@
 
 from openerp import api, models, _
 from openerp.exceptions import UserError
-import logging
-_logger = logging.getLogger(__name__)
 
 
 class ResPartner(models.Model):
@@ -53,12 +51,10 @@ class ResPartner(models.Model):
 
     @api.model
     def create(self, vals):
-        _logger.debug('DEBUG CREATE VALS %s', vals)
         vals = self._zip_codes_consistent(vals)
         return super(ResPartner, self).create(vals)
 
     @api.multi
     def write(self, vals):
-        _logger.debug('DEBUG WRITE VALS %s', vals)
         vals = self._zip_codes_consistent(vals)
         return super(ResPartner, self).write(vals)
